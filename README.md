@@ -25,3 +25,5 @@ Documentation for the bot will be setup on replit (Heroku got rid of free dynos 
 ## Contact : 
 contact me on discord at Puppynuff#6284 if you need help with something, I will try to get to it.
 Discord server : https://discord.gg/zjBHr3DGft
+
+# I will update this with the replit link when I set it up
