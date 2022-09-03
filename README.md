@@ -1,5 +1,7 @@
 # Suzu
 
+### included compiled js if you wanted to work on that for some reason 
+
 ## The bot that attempts to do everything!
 
 ### NOTE : This version of the bot is really early in development. The only additions so far is the website, documentation, and the mineflayer bot.
