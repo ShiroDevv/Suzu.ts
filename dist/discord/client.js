@@ -3,7 +3,6 @@
 //? Modified by :
 //? Importing modules
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
-import reactionRoles from './verifyThings/serverReactions.js';
 //! This is in development. May not work.
 /**
  * ! THE PARAM, TYPE, OUTPUT, USE, AND ERRORS ARE GOING TO BE REMOVED ONCE I MAKE A DOCS PAGE.
@@ -37,7 +36,7 @@ export function setupIntents(intents) {
     //? Creating the return intents array.
     var returnIntents = [];
     //? Checking if the user sent the function intents
-    if (intents == [] || !intents) {
+    if (!intents) {
         console.warn("No intents were given. Setting intents to 'ALL'");
         intents = ['ALL'];
     }
@@ -48,6 +47,7 @@ export function setupIntents(intents) {
             returnIntents.push(GatewayIntentBits.DirectMessageReactions);
             returnIntents.push(GatewayIntentBits.DirectMessageTyping);
             returnIntents.push(GatewayIntentBits.DirectMessages);
+            returnIntents.push(GatewayIntentBits.Guilds);
             returnIntents.push(GatewayIntentBits.GuildBans);
             returnIntents.push(GatewayIntentBits.GuildEmojisAndStickers);
             returnIntents.push(GatewayIntentBits.GuildIntegrations);
@@ -60,6 +60,7 @@ export function setupIntents(intents) {
             returnIntents.push(GatewayIntentBits.GuildScheduledEvents);
             returnIntents.push(GatewayIntentBits.GuildVoiceStates);
             returnIntents.push(GatewayIntentBits.GuildScheduledEvents);
+            returnIntents.push(GatewayIntentBits.MessageContent);
             continue;
         }
         if (intents[i].toLowerCase() == 'dmreactions') {
@@ -174,7 +175,6 @@ export default function clientSetup(token, intents) {
     client.slashCommands = new Collection();
     client.on("ready", async () => {
         console.log("Logged in as " + client.user.tag + "~");
-        await reactionRoles(client, "");
     });
     //* Exporting the client.
     client.login(token);

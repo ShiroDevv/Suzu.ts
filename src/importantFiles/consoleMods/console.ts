@@ -20,40 +20,36 @@ import chalk from 'chalk';
  * 
  */
 export default function update () {
-    // console.log = function (text : any) {
-    //     var oldText = text;
-    //     // if(typeof(text) != "string") {
-    //     //     try {
-    //     //         text = text.toString();
-    //     //     } catch(err) {
-    //     //         text = oldText;
+    //? This changes log to a green color with [LOG] at the start
+    //! Remove this for bot testing. Might make this be auto-disabled unless --production is in the code.
+    //* The reason why is it can only log strings for all of these. Anything else doesn't log.
+    console.log = function (text : any) {
+        //? In case it cant write it to the console, it catches the error.
+        try {
+            //? Writing to the console manually.
+            process.stdout.write(chalk.greenBright('[LOG] ' + text + "\n"));
+        } catch(err : any) {
+            //? In case an error was thrown.
+            console.error("Failed to log string.")
+        }
+    }
 
-    //     //         try {
-    //     //             JSON.stringify(text);
-    //     //         } catch(err) {
-    //     //             console.error("Failed converting to string.");
-    //     //         }
-    //     //     }
-    //     // }
-    //     try {
-    //         process.stdout.write(chalk.greenBright('[LOG] ' + text + "\n"));
-    //     } catch(err : any) {
-    //         throw new Error(err);
-    //     }
-    // }
+    //? For warns, it turns yellow and logs [WARN]
     console.warn = function (text : any) {
         try {
             process.stdout.write(chalk.yellow('[WARN] ' + text + "\n"));
         } catch(err : any) {
-            throw new Error(err);
+            console.error("Error with logging warning")
         }
     }
 
+    //? Logs are red and start with [ERROR].
     console.error = function (text : any) {
         try {
             process.stdout.write(chalk.red('[ERROR] ' + text + "\n"));
         } catch(err : any) {
-            throw new Error(err);
+            //? This is just so people know that it didnt work.
+            console.error("Error logging error moessage.");
         }
     }
 }

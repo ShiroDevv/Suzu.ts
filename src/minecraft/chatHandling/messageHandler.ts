@@ -1,13 +1,32 @@
 //? Importing my files
 import { networth, weight, whatShouldIDo, auction } from './commands/importCommands.js';
+import { getWeight } from './commands/weight.js';
 
 //? Exporting the function.
-export default async function handleMessages(message: any) {
+export default async function handleMessages(message: any, limits = true, botusername : string) {
     if (typeof (message) !== "string") message = message.toString();
 
-    if (!message.includes('Guild > ')) return undefined;
+    if (message.toString().includes("requested to join the Guild!") && limits == false) {
+        args = message.toString().split(" ");
 
-    console.log(message);
+        console.log(args);
+
+        var username = args[1];
+        if (username == "has") username = args[0];
+
+        var Joinweight = await getWeight(username, 'senither');
+
+        if (isNaN(Joinweight)) try {
+            Joinweight = +Joinweight;
+        } catch (err) {
+            console.log(weight);
+        }
+
+        if (Joinweight >= 3000) return "/g accept" + username;
+    }
+
+    if (!message.includes('Guild > ')) return undefined;
+    console.log(botusername + " " + message.toString());
 
     message = removeExtras(message);
     var username = getUserName(message);
@@ -19,7 +38,7 @@ export default async function handleMessages(message: any) {
         return 'The prefix is being changed to "." so that it matches with the discord bot'
     }
 
-    if(msg.toLowerCase().includes("hey hakari, what should i do?")) {
+    if (msg.toLowerCase().includes("hey hakari, what should i do?")) {
         return await whatShouldIDo(username);
     }
 
@@ -28,19 +47,19 @@ export default async function handleMessages(message: any) {
 
         switch (args[0]) {
             case '.networth':
-                if(args[1]) username = args[1];
-                if(args[2] == "custom") {}; 
+                if (args[1]) username = args[1];
+                if (args[2] == "custom") { };
                 //? Planning on making my own api for networth
                 var response = await networth(username);
                 return response;
                 break;
-            case '.weight' :
-                if(args[1]) username = args[1];
-                if(args[2] && args[2].includes("lily")) response = await weight(username, "lily");
+            case '.weight':
+                if (args[1]) username = args[1];
+                if (args[2] && args[2].includes("lily")) response = await weight(username, "lily");
                 else { response = await weight(username, "senither"); }
 
                 return response;
-            case '.ah' :
+            case '.ah':
                 msg = msg.replace(args[1] + " ", "");
                 return await auction(username, msg);
         }

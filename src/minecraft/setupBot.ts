@@ -32,7 +32,7 @@ import handleMessages from './chatHandling/messageHandler.js';
  * !    2 : Check credentials.
  * !]
  */
-export function setUpBot(username : string, host : string, password : string | undefined, auth : "mojang" | "microsoft" | "offline") {
+export function setUpBot(username : string, host : string, password : string | undefined, auth : "mojang" | "microsoft" | "offline", limits = true) {
     //? getting rid of the password function for people.
     if(auth == "microsoft" || auth == "offline") {
         password = undefined;
@@ -53,9 +53,14 @@ export function setUpBot(username : string, host : string, password : string | u
 
     //? When the bot get a message
     bot.on("message", async (message) => {
-        var response = await handleMessages(message);
+        try {
+            var response = await handleMessages(message, limits, bot.username);
+        } catch(err) {
+            console.error(err);
+        }
+            
 
-        if(response != undefined) bot.chat('/gc ' + response);
+        if(response != undefined) bot.chat(response);
     });
 
     bot.on("login", () => {

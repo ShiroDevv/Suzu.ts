@@ -1,12 +1,30 @@
 //? Importing my files
 import { networth, weight, whatShouldIDo, auction } from './commands/importCommands.js';
+import { getWeight } from './commands/weight.js';
 //? Exporting the function.
-export default async function handleMessages(message) {
+export default async function handleMessages(message, limits = true, botusername) {
     if (typeof (message) !== "string")
         message = message.toString();
+    if (message.toString().includes("requested to join the Guild!") && limits == false) {
+        args = message.toString().split(" ");
+        console.log(args);
+        var username = args[1];
+        if (username == "has")
+            username = args[0];
+        var Joinweight = await getWeight(username, 'senither');
+        if (isNaN(Joinweight))
+            try {
+                Joinweight = +Joinweight;
+            }
+            catch (err) {
+                console.log(weight);
+            }
+        if (Joinweight >= 3000)
+            return "/g accept" + username;
+    }
     if (!message.includes('Guild > '))
         return undefined;
-    console.log(message);
+    console.log(botusername + " " + message.toString());
     message = removeExtras(message);
     var username = getUserName(message);
     message = message.replace(username, "");

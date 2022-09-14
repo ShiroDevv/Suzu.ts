@@ -28,7 +28,7 @@ import handleMessages from './chatHandling/messageHandler.js';
  * !    2 : Check credentials.
  * !]
  */
-export function setUpBot(username, host, password, auth) {
+export function setUpBot(username, host, password, auth, limits = true) {
     //? getting rid of the password function for people.
     if (auth == "microsoft" || auth == "offline") {
         password = undefined;
@@ -47,9 +47,14 @@ export function setUpBot(username, host, password, auth) {
     });
     //? When the bot get a message
     bot.on("message", async (message) => {
-        var response = await handleMessages(message);
+        try {
+            var response = await handleMessages(message, limits, bot.username);
+        }
+        catch (err) {
+            console.error(err);
+        }
         if (response != undefined)
-            bot.chat('/gc ' + response);
+            bot.chat(response);
     });
     bot.on("login", () => {
         console.log(`Logged in as ${bot.username}`);
