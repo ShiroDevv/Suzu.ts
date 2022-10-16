@@ -1,15 +1,4 @@
 # Suzu
-
-# This project is being discontinued; Will not get updates anytime soon. (ARCHIVE NOTICE)
-## Why?
-### 1st :
-I thought typescript would be better for this, but I quickly found myself turning every variable I used to any since discord.js has required things you need to do with it, but typescript give errors:<br>
-Example : <br>
-> interaction.options.getString("string"); <- getStrng is undefined.
-
-What do I plan to do?<br>
-Move to rust, or redo the original js (suzu.js) Code. I made this project to make the code look better, and for types, but the types hasn't done anything for me other than cause errors + compile time.
-
 ### included compiled js if you wanted to work on that for some reason 
 
 ## The bot that attempts to do everything!
